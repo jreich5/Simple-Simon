@@ -1,0 +1,95 @@
+body {
+    background-color: papayawhip;  
+}
+
+main {
+    text-align: center;
+    background-color: papayawhip;    
+}
+
+
+h1 {
+    text-align: center;
+}
+
+.jumbotron {
+    margin: 0;
+    background-color: powderblue;
+}
+
+.simonGame {
+    width: 500px;
+    height: 500px;
+    display: inline-block;
+    position: relative;
+    width: auto;
+    height: auto;
+    background-color: black;
+    margin: 0 auto;
+    margin-top: 85px;
+    transform: rotate(45deg);
+
+}
+
+.panel {
+    height: 200px;
+    width:  200px;
+    position: relative;
+    margin: 0;
+    float: left;
+    border: 20px black solid;
+}
+
+.corePanel {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 150px;
+    width: 150px;
+    margin-left: -75px ;
+    margin-top: -75px;
+    background-color: black;
+    border-radius: 150px;
+    z-index: 2;
+}
+
+/*.corePanelOuter {
+    background-color: rgba(0, 0, 0, 0);;
+    height: 600px;
+    width: 600px;
+    margin-left: -300px ;
+    margin-top: -300px;
+    border-radius: 600px;
+    border: 120px papayawhip solid;
+    z-index: 1;
+}*/
+
+/*.corePanelOuterBlack {
+    background-color: rgba(0, 0, 0, .4);;
+    height: 620px;
+    width: 620px;
+    margin-left: -310px ;
+    margin-top: -310px;
+    border-radius: 620px;
+    z-index: 3;
+}*/
+
+.red {
+    background-color: #800;
+}
+
+.blue {
+    background-color: #008;
+
+}
+
+.green {;
+    background-color: #080;
+    clear: both;
+}
+
+.yellow {
+    background-color: #880;
+
+}
