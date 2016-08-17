@@ -12,6 +12,10 @@ h1 {
     text-align: center;
 }
 
+button {
+    position: absolute;
+}
+
 .jumbotron {
     margin: 0;
     background-color: powderblue;
