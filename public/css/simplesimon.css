@@ -16,6 +16,10 @@ button {
     position: absolute;
 }
 
+p {
+    position: absolute;
+}
+
 .jumbotron {
     margin: 0;
     background-color: powderblue;
@@ -56,6 +60,9 @@ button {
     background-color: black;
     border-radius: 150px;
     z-index: 2;
+    transform: rotate(-45deg);
+    line-height: 150px;
+    border: 2px outset gray;
 }
 
 /*.corePanelOuter {
