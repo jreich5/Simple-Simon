@@ -154,24 +154,13 @@
  
     // ===== Event Listener Functions ===== \\
 
-    // Start button event
-    $('#corePanelOuterBlack').click(function(){
-        // alert("Round 1");
-        startUp();
-    });
-    $('#corePanelOuterBlack').mousedown(function(){
-        $(this).css("border-style", "inset");
-    });
-    $('#corePanelOuterBlack').mouseup(function(){
-        $(this).css("border-style", "ouset");
-    });
 
     function armPanels () {
         $red1.mousedown(redClick);
         $red1.mouseup(redDarken);
 
         $blue2.mousedown(blueClick);
-        $blue2.mouseup(blueDarken);
+        $blue2.mouseup(blueDarken); 
 
         $yellow3.mousedown(yellowClick);
         $yellow3.mouseup(yellowDarken);
@@ -187,9 +176,101 @@
     }
 
 
-    $('#round').click(function(){
-        fireNextRound();
-    });
+    function activateKeys () { 
+        
+        // Key down events
+        $(document).keydown(function(e) {
+            switch(e.which) {
+                case 37: // left
+                greenClick();
+                break;
+
+                case 38: // up
+                redClick();
+                break;
+
+                case 39: // right
+                blueClick();
+                break;
+
+                case 40: // down
+                yellowClick();
+                break;
+
+                case 13: // enter
+                startUp();
+                break;
+
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
+    }
+
+    // Deactivates all key events in the document
+    function deactivateKeys () {
+        $(document).off();
+
+    }
+
+    function controlLights () {
+
+        $(document).keydown(function(e) {
+            switch(e.which) {
+                case 37: // left
+                greenLight();
+                break;
+
+                case 38: // up
+                redLight();
+                break;
+
+                case 39: // right
+                blueLight();
+                break;
+
+                case 40: // down
+                yellowLight();
+                break;
+
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
+
+        // Key up events
+        $(document).keyup(function(e) {
+            switch(e.which) {
+                case 37: // left
+                greenDarken();
+                break;
+
+                case 38: // up
+                redDarken();
+                break;
+
+                case 39: // right
+                blueDarken();
+                break;
+
+                case 40: // down
+                yellowDarken();
+                break;
+
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
+    }
+
+    // Arms enter key to begin game
+    function armEnterKey () {
+        $(document).keypress(function(e) {
+            if(e.which == 13) {
+                startUp();
+            }
+        });
+    }
 
     // ===== Animations ===== \\
 
@@ -206,12 +287,15 @@
     function startUp () {
         blinkCounter = [];
         totalArray = [];
-        disarmPanels();
+        deactivateKeys();
         armPanels();
+        activateKeys();
         // Start up animation
         $roundNumber = 0;
         roundDisplayer($roundNumber);
         fireNextRound();
+        controlLights();
+        disarmPanels();
     }
 
     // Random generator function
@@ -239,6 +323,7 @@
 
     // Fires blinks for each round
     function fireBlinks(index) {
+        console.log(index);
         if (blinkCounter.length > index) {
             setTimeout(function() {
                 var color = null;
@@ -247,12 +332,14 @@
                 index++;
                 fireBlinks(index);
             }, 500);
+        } else {
+            return;
         }
     }
 
     // Lose procedure
     function failure () {
-        alert("You lose.");
+        deactivateKeys();
         $roundNumber = "";
         $('#roundDisplay').html("");
         hitValue = null;
@@ -260,6 +347,9 @@
         totalArray = [];
         turnOffAll();
         disarmPanels();
+        controlLights();
+        armEnterKey();
+        alert("You lose.");
         return;
         // Failure animation
     }
@@ -268,5 +358,30 @@
 
     // ========================================================PROCEDURE========================================================
 
-// });
 
+    // Start button event
+    $('#corePanelOuterBlack').click(function(){
+        // alert("Round 1");
+        startUp();
+    });
+    $('#corePanelOuterBlack').mousedown(function(){
+        $(this).css("border-style", "inset");
+    });
+    $('#corePanelOuterBlack').mouseup(function(){
+        $(this).css("border-style", "ouset");
+    });
+
+    // Arms next round button
+    $('#round').click(function(){
+        fireNextRound();
+    });
+
+
+    armEnterKey();
+    controlLights();
+
+
+
+
+    
+// });
