@@ -1,28 +1,13 @@
 // $('document').ready(function() {
+    
     "use strict";
 
-    console.log("Working");
 
-    /* 
-        
-        NEEDED=============================================================
-
-        first create function that lights up a specific color
-
-        function to generate outputs
-
-        wire up button to trigger the next round
+    // ========================================================DEFINITIONS======================================================== \\
 
 
-        FANCY==============================================================
+    // ================================ Global Variables ================================ 
 
-        create start up and failiure and success animation and sound
-
-
-
-     */
-    
-    // ========================================================DEFINITIONS========================================================
 
     // Panel Definitions
     var $red1 = $('#red1');
@@ -31,19 +16,11 @@
     var $green4 = $('#green4');
 
     // User input value
+    var hitValue = null; // The value of most recent user input
+    var totalArray = []; // Stores a complete version of each round array for the duration of the round
+    var blinkCounter = []; // Stores the complete round sequence that shrinks with each correct user input until it is empty at the end of a round
 
-    var hitValue = null;
-
-    var correctHit = null;
-
-    var nextRound = [];
-
-    // Light Definitions
-    
-    
-
-    // Light Object 
-
+    // Light board object 
     var board = {
         "red" : 0,
         "blue" : 1,
@@ -51,59 +28,28 @@
         "green" : 3
     }
 
-
-    // Register what was hit
-
-
-
-    // Helper Functions
+    // Array of light blinks
+    var blinks = [redBlink, blueBlink, yellowBlink, greenBlink];
 
 
 
-        // var lightList = [red1Light, blue2Light, green3Light, yellow3Light];
+    // ================================ Functions ================================ 
+
+
+    // ===== Lighting Functions ===== \\
 
     function redLight () {
         var red1Light = $red1.css("background-color", "#e00");
     }
-
     function blueLight () {
         var blue2Light = $blue2.css("background-color", "#00e");
     }
-
     function yellowLight () {
         var yellow3Light = $yellow3.css("background-color", "#ee0");
     }
-
     function greenLight () {
         var green4Light = $green4.css("background-color", "#0e0");
     }
-
-
-
-    function redClick () {
-        redLight();
-        console.log(board.red);
-        hitValue = board.red;
-        continueOrLose();
-    }
-
-    function blueClick () {
-        blueLight();
-        hitValue = board.blue;
-        continueOrLose();
-    }
-    function yellowClick () {
-        yellowLight();
-        hitValue = board.yellow;
-        continueOrLose();
-    }
-    function greenClick () {
-        greenLight();
-        hitValue = board.green;
-        continueOrLose();
-    }
-
-
 
     function redDarken () {
         var red1Dark = $red1.css("background-color", "#800");
@@ -118,13 +64,29 @@
         var green4Dark = $green4.css("background-color", "#080");
     }
 
+    function redBlink () {
+        redLight();
+        setTimeout(redDarken, 100);
+    }
+    function blueBlink () {
+        blueLight();
+        setTimeout(blueDarken, 100);
+    }
+    function yellowBlink () {
+        yellowLight();
+        setTimeout(yellowDarken, 100);
+    }
+    function greenBlink () {
+        greenLight();
+        setTimeout(greenDarken, 100);
+    }
+
     function turnOffAll () {
         redDarken();
         blueDarken();
         yellowDarken();
         greenDarken();
     }
-
     function turnOnAll () {
         redLight();
         blueLight();
@@ -132,8 +94,70 @@
         greenLight();
     }
 
+    // ===== Click Functions ===== \\
 
-    // Function on browser load to arm divs to make clickable
+    function redClick () {
+        redLight();
+        hitValue = board.red;
+        if (board.red == blinkCounter[0]) {
+            blinkCounter.shift();
+            if (blinkCounter.length == 0) {
+                fireNextRound();
+            }
+        } else {
+            failure();
+        }
+    }
+    function blueClick () {
+        blueLight();
+        hitValue = board.blue;
+        if (board.blue == blinkCounter[0]) {
+            blinkCounter.shift();
+            if (blinkCounter.length == 0) {
+                fireNextRound();
+            }
+        } else {
+            failure();
+        }
+    }
+    function yellowClick () {
+        yellowLight();
+        hitValue = board.yellow;
+        if (board.yellow == blinkCounter[0]) {
+            blinkCounter.shift();
+            if (blinkCounter.length == 0) {
+                fireNextRound();
+            }
+        } else {
+            failure();
+        }
+    }
+    function greenClick () {
+        greenLight();
+        hitValue = board.green;
+        if (board.green == blinkCounter[0]) {
+            blinkCounter.shift();
+            if (blinkCounter.length == 0) {
+                fireNextRound();
+            }
+        } else {
+            failure();
+        }
+    }
+
+    // Start button event
+    $('#corePanelOuterBlack').click(function(){
+        // alert("Round 1");
+        startUp();
+    });
+    $('#corePanelOuterBlack').mousedown(function(){
+        $(this).css("border-style", "inset");
+    });
+    $('#corePanelOuterBlack').mouseup(function(){
+        $(this).css("border-style", "ouset");
+    });
+
+    // ===== Event Listener Functions ===== \\
 
     function armPanels () {
         $red1.mousedown(redClick);
@@ -148,220 +172,83 @@
         $green4.mousedown(greenClick);
         $green4.mouseup(greenDarken);
     }
-
-
-    // Functions to create light blink for each panel
-
-    function redBlink () {
-        redLight();
-        setTimeout(redDarken, 100);
+    function disarmPanels () {
+        $red1.off();
+        $blue2.off();
+        $yellow3.off();
+        $green4.off();
     }
 
-    function blueBlink () {
-        blueLight();
-        setTimeout(blueDarken, 100);
+    // ===== Animations ===== \\
+
+
+
+
+
+
+
+
+    // ===== Game Logic Functions ===== \\
+
+    // Game start 
+    function startUp () {
+        blinkCounter = [];
+        totalArray = [];
+        disarmPanels();
+        armPanels();
+        // Start up animation
+        fireNextRound();
     }
 
-    function yellowBlink () {
-        yellowLight();
-        setTimeout(yellowDarken, 100);
-    }
-
-    function greenBlink () {
-        greenLight();
-        setTimeout(greenDarken, 100);
-    }
-
-
-    // Array of light blinks
-
-    var blinks = [redBlink, blueBlink, yellowBlink, greenBlink];
-
-
-    // Blinks index variable
-
-    var blinksIndex;
-
-
-    // Random generator
-
+    // Random generator function
     function randomIndex () {
+        var blinksIndex;
         blinksIndex = Math.floor((Math.random() * 4));
         return blinksIndex;
     }
 
-
-    // Generates random array
-
-    var blinkCounter = [];
-
-    function blinkAdder () {
-        var random = randomIndex();
-        // console.log(random);
-        // console.log(blinks[random]);
-        blinkCounter.push(random);
-
-        // console.log(blinkCounter);
+    // Engages round
+    function fireNextRound () {
+        blinkCounter = totalArray.slice();
+        blinkAdder();
+        totalArray = blinkCounter.slice();
+        fireBlinks(0);
     }
 
+    // Adds new blink for each round
+    function blinkAdder () {
+        var random = randomIndex();
+        blinkCounter.push(random);
+    }
 
-
-    // Fills array with random outputs using an if statement to control setTimeout for every array ouput
-
+    // Fires blinks for each round
     function fireBlinks(index) {
         if (blinkCounter.length > index) {
             setTimeout(function() {
-                // Grap first array index of blinkCounter ===== this would be blinkCounter[index] and then use that number 
-                var i = blinkCounter[index];
-                blinks[i]();
+                var color = null;
+                color = blinkCounter[index];
+                blinks[color]();
                 index++;
                 fireBlinks(index);
             }, 1000);
         }
     }
 
-    // Adds new function to blinkCounter
-
-    function blinkAppender () {
-        blinkCounter = nextRound;
-        blinkAdder();
-        fireBlinks(0);
-    }
-
-    
-
-
-    // Arming next round button
-
-    $('button').click(blinkAppender);
-
-        
-
-    // Start animation
-    
-
-    // Lose animation
-
-
-    // Check for correct input
-
-
-
-    // Sets correct hit and populates a new array with the value of the current round
-    function toTheOne () {
-        correctHit = blinkCounter.shift();
-        nextRound.push(correctHit);
-    }
-
-
-
-    // Controls the condition of correct or incorrect user input
-    function continueOrLose () {
-            toTheOne();
-        if (hitValue == correctHit) {
-            console.log("Correct hit after toTheOne()" + correctHit);
-        } else {
-            failure();
-
-            // failure animation
-        }
-    }
-
-    // Handles failure 
-
+    // Lose procedure
     function failure () {
         alert("You lose.");
         hitValue = null;
         blinkCounter = [];
-        nextRound = [];
+        totalArray = [];
         turnOffAll();
-    }
-
-    // Runs game
-
-    function runRound () {
-        if (blinkCounter.length = 0) {
-            blinkAppender();
-        }
-    }
-        
-    function firstRound () {
-        blinkCounter = [];
-        blinkAdder();
-        fireBlinks(0);
+        disarmPanels();
+        return;
+        // Failure animation
     }
 
 
 
-    /*
-
-    Basically, I'm struggling because I'm not sure what the hell I'm doing! >:(
-
-    I need to check if what the user hits is the correct thing to hit in the sequence. 
-
-    1) Load page
-    2) Start game with click event
-    3) Starting animation
-    4) First computer blink set
-    5) Fire off first computer blink
-    6) Buttons armed
-    7) User attempts correct input
-        if (success) {
-            A. disarm the buttons
-            B. add to the sequece;
-            C. fire off sequence;
-        } else {
-            A. disarm buttons
-            B. all variables reset;
-            C. failure animation
-        };
-
-
-
-
-    // 
-
-        // While loop to take away from correctHit
-        // if user hits correct button in first blink counter index, shift array again
-
-
-        // I need to have some way of registering user input
-
-    }    
-     
-
-    // Start game function 
-    */
-
-
-
-    $('#corePanelOuterBlack').click(function(){
-        alert("Round 1");
-        firstRound();
-    });
-
-    $('#corePanelOuterBlack').mousedown(function(){
-        $(this).css("border-style", "inset");
-    });
-
-    $('#corePanelOuterBlack').mouseup(function(){
-        $(this).css("border-style", "ouset");
-    });
-
-
-
-    // ========================================================PROCEDURE==========================================================    
-    armPanels();
-
-
-    if (blinkCounter == []) {
-        runRound();
-    }
-    
-    
-
-
-    
+    // ========================================================PROCEDURE========================================================
 
 // });
 
