@@ -31,6 +31,13 @@
     // Array of light blinks
     var blinks = [redBlink, blueBlink, yellowBlink, greenBlink];
 
+    // Round count
+    var $roundNumber = "";
+
+    // Round display
+    function roundDisplayer (input) {
+        $('#roundDisplay').html("Round " + input); 
+    }
 
 
     // ================================ Functions ================================ 
@@ -144,6 +151,8 @@
             failure();
         }
     }
+ 
+    // ===== Event Listener Functions ===== \\
 
     // Start button event
     $('#corePanelOuterBlack').click(function(){
@@ -156,8 +165,6 @@
     $('#corePanelOuterBlack').mouseup(function(){
         $(this).css("border-style", "ouset");
     });
-
-    // ===== Event Listener Functions ===== \\
 
     function armPanels () {
         $red1.mousedown(redClick);
@@ -179,6 +186,11 @@
         $green4.off();
     }
 
+
+    $('#round').click(function(){
+        fireNextRound();
+    });
+
     // ===== Animations ===== \\
 
 
@@ -197,6 +209,8 @@
         disarmPanels();
         armPanels();
         // Start up animation
+        $roundNumber = 0;
+        roundDisplayer($roundNumber);
         fireNextRound();
     }
 
@@ -209,6 +223,8 @@
 
     // Engages round
     function fireNextRound () {
+        $roundNumber++;
+        roundDisplayer($roundNumber);
         blinkCounter = totalArray.slice();
         blinkAdder();
         totalArray = blinkCounter.slice();
@@ -230,13 +246,15 @@
                 blinks[color]();
                 index++;
                 fireBlinks(index);
-            }, 1000);
+            }, 500);
         }
     }
 
     // Lose procedure
     function failure () {
         alert("You lose.");
+        $roundNumber = "";
+        $('#roundDisplay').html("");
         hitValue = null;
         blinkCounter = [];
         totalArray = [];
