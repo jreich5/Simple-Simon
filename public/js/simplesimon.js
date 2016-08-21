@@ -34,13 +34,14 @@
     // Round count
     var $roundNumber = "";
 
+
+    // ================================ Functions ================================ 
+
+
     // Round display
     function roundDisplayer (input) {
         $('#roundDisplay').html("Round " + input); 
     }
-
-
-    // ================================ Functions ================================ 
 
 
     // ===== Lighting Functions ===== \\
@@ -155,6 +156,7 @@
     // ===== Event Listener Functions ===== \\
 
 
+
     function armPanels () {
         $red1.mousedown(redClick);
         $red1.mouseup(redDarken);
@@ -210,7 +212,6 @@
     // Deactivates all key events in the document
     function deactivateKeys () {
         $(document).off();
-
     }
 
     function controlLights () {
@@ -272,10 +273,83 @@
         });
     }
 
+    // Arms next round button
+    function cowardsWay () {
+        $('#round').click(function(){
+            fireNextRound();
+        });
+    }
+
+
     // ===== Animations ===== \\
 
+    function startAnimation () {
+        
+       $('.panel').addClass('spin'); 
+       setTimeout(function() {
+           $('.panel').removeClass('spin');
+        }, 2000);
+    }
 
+    function failAnimation () {
+        console.log("Fail fired");
+        $('.simonGame').animate({
+            opacity: '0',
+            top: '100px',
+            left: '100px'
+        }, 3000).animate({
+            opacity: '.9',
+            top: '0',
+            left: '0'
+        }, 100);
+    }
 
+    function completedRoundAnimation () {
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 50);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 100);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOnAll();
+        }, 150);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 200);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 250);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 300);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOnAll();
+        }, 350);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 400);
+
+        turnOnAll();
+        setTimeout(function() {
+            turnOffAll();
+        }, 450);
+    }
 
 
 
@@ -285,18 +359,25 @@
 
     // Game start 
     function startUp () {
+        turnOffAll();
         blinkCounter = [];
         totalArray = [];
         deactivateKeys();
-        armPanels();
-        activateKeys();
-        // Start up animation
+        startAnimation();
+        disarmPanels();
         $roundNumber = 0;
         roundDisplayer($roundNumber);
-        fireNextRound();
-        controlLights();
-        disarmPanels();
+        setTimeout(function() {
+            activateKeys();
+            // Start up animation
+            armPanels();
+            fireNextRound();
+            controlLights();
+            cowardsWay();
+        }, 2000);
+
     }
+
 
     // Random generator function
     function randomIndex () {
@@ -312,7 +393,10 @@
         blinkCounter = totalArray.slice();
         blinkAdder();
         totalArray = blinkCounter.slice();
-        fireBlinks(0);
+        completedRoundAnimation();
+        setTimeout(function() {
+            fireBlinks(0);
+        }, 2000);
     }
 
     // Adds new blink for each round
@@ -339,6 +423,7 @@
 
     // Lose procedure
     function failure () {
+        failAnimation();
         deactivateKeys();
         $roundNumber = "";
         $('#roundDisplay').html("");
@@ -349,7 +434,7 @@
         disarmPanels();
         controlLights();
         armEnterKey();
-        alert("You lose.");
+        cowardsWay();
         return;
         // Failure animation
     }
@@ -364,23 +449,24 @@
         // alert("Round 1");
         startUp();
     });
-    $('#corePanelOuterBlack').mousedown(function(){
-        $(this).css("border-style", "inset");
+    $('#corePanelOuterBlack').click(function(){
+        $(this).css("border-style", "groove");
     });
     $('#corePanelOuterBlack').mouseup(function(){
-        $(this).css("border-style", "ouset");
+        $(this).css("border-style", "solid");
     });
 
-    // Arms next round button
-    $('#round').click(function(){
-        fireNextRound();
-    });
+    cowardsWay();
 
-
+    // Allows for startup
     armEnterKey();
+
+    // Enables the user to play with lights between rounds
     controlLights();
 
-
+    $('#round').click(function(){
+        console.log('Clicked');
+    });
 
 
     

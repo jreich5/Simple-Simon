@@ -18,12 +18,19 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/simplesimon.css">
 
+    <style type="text/css">
+    
+        .panel {
+            opacity: .9;
+        }
+
+    </style>
+
 </head>
 
 <body>
     <!-- BODY CONTENT -->
     <main class="container">
-        <h1 class="jumbotron">Simple Simon Game!</h1>
         
         <div class="simonGame">
             <div class="panel red" id="red1"></div>
@@ -39,6 +46,14 @@
         <p id="roundDisplay"></p>
 
     </main>
+    <div id="space">
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
+    </div>
+
     
     <!-- jQuery Version 1.11.1 -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
