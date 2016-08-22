@@ -1,4 +1,4 @@
-// $('document').ready(function() {
+$('document').ready(function() {
     
     "use strict";
 
@@ -16,7 +16,6 @@
     var $green4 = $('#green4');
 
     // Sound definitions
-
     var soundRed = new Audio("sounds/red.mp3");
     soundRed.preload = 'auto';
     soundRed.load();
@@ -45,7 +44,6 @@
     soundGameOver.preload = 'auto';
     soundGameOver.load();
 
-    
     // User input value
     var hitValue = null; // The value of most recent user input
     var totalArray = []; // Stores a complete version of each round array for the duration of the round
@@ -70,7 +68,6 @@
 
 
     // Resets global variables
-
     function variableReset () {
         blinkCounter = [];
         totalArray = [];
@@ -153,6 +150,7 @@
         greenLight();
     }
 
+
     // ===== Click Functions ===== \\
 
     function redClick () {
@@ -204,10 +202,10 @@
         }
     }
  
+
     // ===== Event Listener Functions ===== \\
 
-
-
+    // Arm mouse clicks
     function armPanels () {
         $red1.mousedown(redClick);
         $red1.mouseup(redDarken);
@@ -221,6 +219,7 @@
         $green4.mousedown(greenClick);
         $green4.mouseup(greenDarken);
     }
+    // Remove event listeners
     function disarmPanels () {
         $red1.off();
         $blue2.off();
@@ -228,10 +227,8 @@
         $green4.off();
     }
 
-
+    // Key down events
     function activateKeys () { 
-        
-        // Key down events
         $(document).keydown(function(e) {
             switch(e.which) {
                 case 37: // left
@@ -271,7 +268,6 @@
     }
 
     function controlLights () {
-
         $(document).keydown(function(e) {
             switch(e.which) {
                 case 37: // left
@@ -340,7 +336,6 @@
     // ===== Animations ===== \\
 
     function startAnimation () {
-        
        $('.panel').addClass('spin'); 
        setTimeout(function() {
            $('.panel').removeClass('spin');
@@ -470,7 +465,6 @@
 
     }
 
-
     // Random generator function
     function randomIndex () {
         var blinksIndex;
@@ -533,35 +527,41 @@
         return;
     }
 
+    // Procedural code on page load
+
+    function onLoad () {
+        // Start button event
+        $('#corePanelOuterBlack').click(function(){
+            // alert("Round 1");
+            startUp();
+        });
+        $('#corePanelOuterBlack').click(function(){
+            $(this).css("border-style", "groove");
+        });
+        $('#corePanelOuterBlack').mouseup(function(){
+            $(this).css("border-style", "solid");
+        });
+
+        cowardsWay();
+
+        // Allows for startup
+        armEnterKey();
+
+        // Enables the user to play with lights between rounds
+        controlLights();
+
+        $('#round').click(function(){
+            console.log('Clicked');
+        });
+
+        menuMusic();
+    }
 
 
     // ========================================================PROCEDURE========================================================
 
 
-    // Start button event
-    $('#corePanelOuterBlack').click(function(){
-        // alert("Round 1");
-        startUp();
-    });
-    $('#corePanelOuterBlack').click(function(){
-        $(this).css("border-style", "groove");
-    });
-    $('#corePanelOuterBlack').mouseup(function(){
-        $(this).css("border-style", "solid");
-    });
-
-    cowardsWay();
-
-    // Allows for startup
-    armEnterKey();
-
-    // Enables the user to play with lights between rounds
-    controlLights();
-
-    $('#round').click(function(){
-        console.log('Clicked');
-    });
-
-    menuMusic();
+    onLoad();
     
-// });
+    
+});

@@ -17,7 +17,6 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="css/simplesimon.css">
-
     <style type="text/css">
 
         .panel {
@@ -27,24 +26,12 @@
     </style>
 
 </head>
-
 <body>
-        <!-- <source src="sounds/blue.mp3" type="audio/mp3">
-        <source src="sounds/gameOver.mp3" type="audio/mp3">
-        <source src="sounds/passRound.mp3" type="audio/mp3">
-        <source src="sounds/red.mp3" type="audio/mp3">
-        <source src="sounds/roundMusic.mp3" type="audio/mp3">
-        <source src="sounds/start.mp3" type="audio/mp3">
-        <source src="sounds/yellow.mp3" type="audio/mp3"> -->
+      
     <audio loop autoplay id="music">
         <source type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
-<!-- 
-    <audio loop autoplay id="soundEffect">
-        <source src="sounds/menu.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio> -->
 
     <!-- BODY CONTENT -->
     <main class="container">
@@ -57,7 +44,10 @@
             <div class="corePanel corePanelOuterBlack" id="corePanelOuterBlack">SIMPLE SIMON</div>
         </div>
 
-        <button id="round">Coward's Way</button>
+        <!-- <button id="round">Coward's Way</button> -->
+            
+        <!-- ***** The Coward's Way Button is quite unstable and can cause glitches in animation and round count ***** -->
+
         <p id="roundDisplay">Press enter to begin</p>
 
     </main>
@@ -68,20 +58,17 @@
       <div class="stars"></div>
       <div class="stars"></div>
     </div>
-
     
     <!-- jQuery Version 1.11.1 -->
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+    <!-- jQuery UI 1.10.3 -->
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.js"></script>
 
     <!-- Custom JS -->
-
     <script src="js/simplesimon.js"></script>
 
 </body>
-
 </html>

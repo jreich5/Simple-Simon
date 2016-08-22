@@ -5,28 +5,21 @@ body {
     background-size: cover;
     font-family: 'Orbitron', sans-serif;
 }
-
-
 main {
     text-align: center;
     background-color: transparent;  
 }
-
-
 h1 {
     text-align: center;
 }
-
 button {
     position: absolute;
 }
-
 #roundDisplay {
     position: absolute;
     z-index: 10;
     color: red;
     font-size: 2em;
-
 }
 .simonGame {
     width: 500px;
@@ -41,10 +34,7 @@ button {
     transform: rotate(45deg);
     opacity: .9;
     z-index: 2;
-
-
 }
-
 .panel {
     height: 200px;
     width:  200px;
@@ -54,7 +44,6 @@ button {
     border: 20px black solid;
     z-index: 3;
 }
-
 .corePanel {
     color: white;
     position: absolute;
@@ -72,25 +61,18 @@ button {
     border: 2px solid gray;
     z-index: 3;
 }
-
-
 .red {
     background-color: #800;
 }
-
 .blue {
     background-color: #008;
-
 }
-
 .green {;
     background-color: #080;
     clear: both;
 }
-
 .yellow {
     background-color: #880;
-
 }
 
 /* Handels spin on start up */
@@ -108,10 +90,7 @@ button {
     z-index: 10;
 }
 
-
-
 /* Imported CSS Starfield for background Animation */
-
 
 /* Stars 
 ------------------------------------- */
@@ -124,7 +103,6 @@ button {
   left: 0;
   right: 0;
 }
-
 .stars {
   background-image: 
     radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
@@ -138,7 +116,6 @@ button {
   animation: zoom 5s infinite;
   opacity: 0;
 }
-
 .stars:nth-child(1) {
   background-position: 50% 50%;
   animation-delay: 0s;
@@ -177,23 +154,3 @@ button {
   }
 }
 
-/* Demo syles 
-------------------------------------- */
-
-/*
-
-h1 {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  margin: -1.5em -2.5em;
-  width: 5em;
-  color: #011;
-  font-size: 5em;
-  text-align: center;
-  text-shadow: 0 0 3px #6cf;
-}
-h1:first-line {
-  font-size: 200%;
-}*/
