@@ -15,6 +15,17 @@
     var $yellow3 = $('#yellow3');
     var $green4 = $('#green4');
 
+    // Sound definitions
+
+    var soundBlue = new Audio('sounds/blue.mp3');
+    var soundGameOver = new Audio('sounds/blue.mp3');
+    var soundMenu = new Audio('sounds/blue.mp3');
+    var soundPassRound = new Audio('sounds/blue.mp3');
+    var soundRed = new Audio('sounds/blue.mp3');
+    var soundRoundMusic = new Audio('sounds/blue.mp3');
+    var soundStart = new Audio('sounds/blue.mp3');
+    var soundYellow = new Audio('sounds/blue.mp3');
+
     // User input value
     var hitValue = null; // The value of most recent user input
     var totalArray = []; // Stores a complete version of each round array for the duration of the round
@@ -32,7 +43,7 @@
     var blinks = [redBlink, blueBlink, yellowBlink, greenBlink];
 
     // Round count
-    var $roundNumber = "";
+    var $roundNumber = 0;
 
 
     // ================================ Functions ================================ 
@@ -58,6 +69,14 @@
     function greenLight () {
         var green4Light = $green4.css("background-color", "#0e0");
     }
+
+    // function redLightLightOrDim(lightOff) {
+    //     if (lightOff) {
+    //         var red1Dark = $red1.css("background-color", "#800");
+    //     } else {
+    //         var red1Light = $red1.css("background-color", "#e00");
+    //     }
+    // }
 
     function redDarken () {
         var red1Dark = $red1.css("background-color", "#800");
@@ -305,55 +324,32 @@
     }
 
     function completedRoundAnimation () {
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 50);
+        for (var i = 1; i <= 11; i++) {
+            if (i % 2 != 0) {
+                setTimeout(function() {
+                    turnOffAll();
+                }, 50 * i); 
+            } else {
+                setTimeout(function() {
+                    turnOnAll();
+                }, 50 * i); 
+            }
+        }
 
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 100);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOnAll();
-        }, 150);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 200);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 250);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 300);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOnAll();
-        }, 350);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 400);
-
-        turnOnAll();
-        setTimeout(function() {
-            turnOffAll();
-        }, 450);
+        if ($roundNumber > 1) {
+            $('.panel').animate({
+                'border-radius': '100px',
+            }, 400).animate({
+                'border-radius': '0px',
+            }, 400);
+        }
     }
 
 
+    // ===== Audio Functions ===== \\
 
-
+    var audio = new Audio('audio_file.mp3');
+    audio.play();
 
     // ===== Game Logic Functions ===== \\
 
@@ -367,6 +363,7 @@
         disarmPanels();
         $roundNumber = 0;
         roundDisplayer($roundNumber);
+        $('#roundDisplay').show();
         setTimeout(function() {
             activateKeys();
             // Start up animation
@@ -423,10 +420,11 @@
 
     // Lose procedure
     function failure () {
+        debugger
         failAnimation();
         deactivateKeys();
-        $roundNumber = "";
-        $('#roundDisplay').html("");
+        $roundNumber = 0;
+        $('#roundDisplay').hide();
         hitValue = null;
         blinkCounter = [];
         totalArray = [];
@@ -438,6 +436,9 @@
         return;
         // Failure animation
     }
+
+
+
 
 
 
@@ -467,6 +468,7 @@
     $('#round').click(function(){
         console.log('Clicked');
     });
+
 
 
     
