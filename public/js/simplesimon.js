@@ -72,6 +72,7 @@ $('document').ready(function() {
         blinkCounter = [];
         totalArray = [];
         $roundNumber = 0;
+        hitValue = null;
     }
 
     // Round display
@@ -155,6 +156,7 @@ $('document').ready(function() {
 
     function redClick () {
         redLight();
+        playRed(1);
         hitValue = board.red;
         if (board.red == blinkCounter[0]) {
             blinkCounter.shift();
@@ -167,6 +169,7 @@ $('document').ready(function() {
     }
     function blueClick () {
         blueLight();
+        playBlue(1);
         hitValue = board.blue;
         if (board.blue == blinkCounter[0]) {
             blinkCounter.shift();
@@ -179,6 +182,7 @@ $('document').ready(function() {
     }
     function yellowClick () {
         yellowLight();
+        playYellow(1);
         hitValue = board.yellow;
         if (board.yellow == blinkCounter[0]) {
             blinkCounter.shift();
@@ -191,6 +195,7 @@ $('document').ready(function() {
     }
     function greenClick () {
         greenLight();
+        playGreen(1);
         hitValue = board.green;
         if (board.green == blinkCounter[0]) {
             blinkCounter.shift();
@@ -233,22 +238,18 @@ $('document').ready(function() {
             switch(e.which) {
                 case 37: // left
                 greenClick();
-                playGreen(1);
                 break;
 
                 case 38: // up
                 redClick();
-                playRed(1);
                 break;
 
                 case 39: // right
                 blueClick();
-                playBlue(1);
                 break;
 
                 case 40: // down
                 yellowClick();
-                playYellow(1);
                 break;
 
                 case 13: // enter
@@ -494,7 +495,6 @@ $('document').ready(function() {
 
     // Fires blinks for each round
     function fireBlinks(index) {
-        console.log(index);
         if (blinkCounter.length > index) {
             setTimeout(function() {
                 var color = null;
