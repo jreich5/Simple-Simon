@@ -17,15 +17,35 @@
 
     // Sound definitions
 
-    var soundBlue = new Audio('sounds/blue.mp3');
-    var soundGameOver = new Audio('sounds/blue.mp3');
-    var soundMenu = new Audio('sounds/blue.mp3');
-    var soundPassRound = new Audio('sounds/blue.mp3');
-    var soundRed = new Audio('sounds/blue.mp3');
-    var soundRoundMusic = new Audio('sounds/blue.mp3');
-    var soundStart = new Audio('sounds/blue.mp3');
-    var soundYellow = new Audio('sounds/blue.mp3');
+    var soundRed = new Audio("sounds/red.mp3");
+    soundRed.preload = 'auto';
+    soundRed.load();
 
+    var soundBlue = new Audio('sounds/blue.mp3');
+    soundBlue.preload = 'auto';
+    soundBlue.load();
+
+    var soundYellow = new Audio('sounds/yellow.mp3');
+    soundYellow.preload = 'auto';
+    soundYellow.load();
+
+    var soundGreen = new Audio('sounds/green.mp3');
+    soundGreen.preload = 'auto';
+    soundGreen.load();
+
+    var soundStart = new Audio('sounds/start.mp3');
+    soundStart.preload = 'auto';
+    soundStart.load();
+
+    var soundPassRound = new Audio('sounds/passRound.mp3');
+    soundPassRound.preload = 'auto';
+    soundPassRound.load();
+
+    var soundGameOver = new Audio('sounds/gameOver.mp3');
+    soundGameOver.preload = 'auto';
+    soundGameOver.load();
+
+    
     // User input value
     var hitValue = null; // The value of most recent user input
     var totalArray = []; // Stores a complete version of each round array for the duration of the round
@@ -48,6 +68,14 @@
 
     // ================================ Functions ================================ 
 
+
+    // Resets global variables
+
+    function variableReset () {
+        blinkCounter = [];
+        totalArray = [];
+        $roundNumber = 0;
+    }
 
     // Round display
     function roundDisplayer (input) {
@@ -92,18 +120,22 @@
     }
 
     function redBlink () {
+        playRed(1);
         redLight();
         setTimeout(redDarken, 100);
     }
     function blueBlink () {
+        playBlue(1);
         blueLight();
         setTimeout(blueDarken, 100);
     }
     function yellowBlink () {
+        playYellow(1);
         yellowLight();
         setTimeout(yellowDarken, 100);
     }
     function greenBlink () {
+        playGreen(1);
         greenLight();
         setTimeout(greenDarken, 100);
     }
@@ -204,22 +236,27 @@
             switch(e.which) {
                 case 37: // left
                 greenClick();
+                playGreen(1);
                 break;
 
                 case 38: // up
                 redClick();
+                playRed(1);
                 break;
 
                 case 39: // right
                 blueClick();
+                playBlue(1);
                 break;
 
                 case 40: // down
                 yellowClick();
+                playYellow(1);
                 break;
 
                 case 13: // enter
                 startUp();
+
                 break;
 
                 default: return; // exit this handler for other keys
@@ -311,7 +348,6 @@
     }
 
     function failAnimation () {
-        console.log("Fail fired");
         $('.simonGame').animate({
             opacity: '0',
             top: '100px',
@@ -348,13 +384,70 @@
 
     // ===== Audio Functions ===== \\
 
-    var audio = new Audio('audio_file.mp3');
-    audio.play();
+    function roundMusic () {
+        $('#music').attr('src', 'sounds/roundMusic.mp3');
+    }
+
+    function menuMusic () {
+        $('#music').attr('src', 'sounds/menu.mp3');
+    }
+
+    function playRed(volume) {
+        console.log("Playing");
+      var click = soundRed.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
+    function playBlue(volume) {
+        console.log("Playing");
+      var click = soundBlue.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
+    function playYellow(volume) {
+        console.log("Playing");
+      var click = soundYellow.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
+    function playGreen(volume) {
+        console.log("Playing");
+      var click = soundGreen.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
+    function playStart(volume) {
+        console.log("Playing");
+      var click = soundStart.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
+    function playPassRound(volume) {
+        console.log("Playing");
+      var click = soundPassRound.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
+    function playGameOver(volume) {
+        console.log("Playing");
+      var click = soundGameOver.cloneNode();
+      click.volume = volume;
+      click.play();
+    }
+
 
     // ===== Game Logic Functions ===== \\
 
     // Game start 
     function startUp () {
+        playStart(1);
+        roundMusic();
         turnOffAll();
         blinkCounter = [];
         totalArray = [];
@@ -365,8 +458,10 @@
         roundDisplayer($roundNumber);
         $('#roundDisplay').show();
         setTimeout(function() {
+            deactivateKeys();
+            disarmPanels();
+            variableReset();
             activateKeys();
-            // Start up animation
             armPanels();
             fireNextRound();
             controlLights();
@@ -385,6 +480,7 @@
 
     // Engages round
     function fireNextRound () {
+        playPassRound(1);
         $roundNumber++;
         roundDisplayer($roundNumber);
         blinkCounter = totalArray.slice();
@@ -420,7 +516,8 @@
 
     // Lose procedure
     function failure () {
-        debugger
+        playGameOver(1);
+        menuMusic();
         failAnimation();
         deactivateKeys();
         $roundNumber = 0;
@@ -434,11 +531,7 @@
         armEnterKey();
         cowardsWay();
         return;
-        // Failure animation
     }
-
-
-
 
 
 
@@ -469,7 +562,6 @@
         console.log('Clicked');
     });
 
-
-
+    menuMusic();
     
 // });

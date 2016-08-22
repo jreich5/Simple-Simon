@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="css/simplesimon.css">
 
     <style type="text/css">
-    
+
         .panel {
             opacity: .9;
         }
@@ -29,6 +29,23 @@
 </head>
 
 <body>
+        <!-- <source src="sounds/blue.mp3" type="audio/mp3">
+        <source src="sounds/gameOver.mp3" type="audio/mp3">
+        <source src="sounds/passRound.mp3" type="audio/mp3">
+        <source src="sounds/red.mp3" type="audio/mp3">
+        <source src="sounds/roundMusic.mp3" type="audio/mp3">
+        <source src="sounds/start.mp3" type="audio/mp3">
+        <source src="sounds/yellow.mp3" type="audio/mp3"> -->
+    <audio loop autoplay id="music">
+        <source type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+<!-- 
+    <audio loop autoplay id="soundEffect">
+        <source src="sounds/menu.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio> -->
+
     <!-- BODY CONTENT -->
     <main class="container">
         
@@ -37,13 +54,11 @@
             <div class="panel blue" id="blue2"></div>
             <div class="panel green" id="green4"></div>
             <div class="panel yellow" id="yellow3"></div>
-            <div class="corePanel">Test</div>
-            <div class="corePanel corePanelOuter">Test2</div>
             <div class="corePanel corePanelOuterBlack" id="corePanelOuterBlack">SIMPLE SIMON</div>
         </div>
 
         <button id="round">Coward's Way</button>
-        <p id="roundDisplay"></p>
+        <p id="roundDisplay">Press enter to begin</p>
 
     </main>
     <div id="space">
