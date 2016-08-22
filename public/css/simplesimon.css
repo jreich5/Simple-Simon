@@ -60,6 +60,7 @@ button {
     line-height: 150px;
     border: 2px solid gray;
     z-index: 3;
+    border-style: solid;
 }
 .red {
     background-color: #800;
@@ -90,7 +91,7 @@ button {
     z-index: 10;
 }
 
-/* Imported CSS Starfield for background Animation */
+/* Adapted CSS Starfield for background Animation from https://codepen.io/keithclark/pen/zqcEd */
 
 /* Stars 
 ------------------------------------- */

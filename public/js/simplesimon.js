@@ -1,4 +1,4 @@
-$('document').ready(function() {
+// $('document').ready(function() {
     
     "use strict";
 
@@ -15,9 +15,9 @@ $('document').ready(function() {
     var $yellow3 = $('#yellow3');
     var $green4 = $('#green4');
 
-    // Sound definitions
+    // Sound definitions ** can refactor as an object
     var soundRed = new Audio("sounds/red.mp3");
-    soundRed.preload = 'auto';
+    soundRed.preload = 'auto'; // Procedural code placed after sound variables for readability
     soundRed.load();
 
     var soundBlue = new Audio('sounds/blue.mp3');
@@ -60,7 +60,7 @@ $('document').ready(function() {
     // Array of light blinks
     var blinks = [redBlink, blueBlink, yellowBlink, greenBlink];
 
-    // Round count
+    // Round count ** can be refactored out of code by using totalArray.length
     var $roundNumber = 0;
 
 
@@ -83,79 +83,74 @@ $('document').ready(function() {
 
     // ===== Lighting Functions ===== \\
 
-    function redLight () {
-        var red1Light = $red1.css("background-color", "#e00");
+    
+    function redLight (lightOn) {
+        if (lightOn) {
+            $red1.css("background-color", "#e00");
+        } else {
+            $red1.css("background-color", "#800");
+        }
     }
-    function blueLight () {
-        var blue2Light = $blue2.css("background-color", "#00e");
+    function blueLight (lightOn) {
+        if (lightOn) {
+            $blue2.css("background-color", "#00e");
+        } else {
+            $blue2.css("background-color", "#008");
+        }
     }
-    function yellowLight () {
-        var yellow3Light = $yellow3.css("background-color", "#ee0");
+    function yellowLight (lightOn) {
+        if (lightOn) {
+            $yellow3.css("background-color", "#ee0");
+        } else {
+            $yellow3.css("background-color", "#880");
+        }
     }
-    function greenLight () {
-        var green4Light = $green4.css("background-color", "#0e0");
-    }
-
-    // function redLightLightOrDim(lightOff) {
-    //     if (lightOff) {
-    //         var red1Dark = $red1.css("background-color", "#800");
-    //     } else {
-    //         var red1Light = $red1.css("background-color", "#e00");
-    //     }
-    // }
-
-    function redDarken () {
-        var red1Dark = $red1.css("background-color", "#800");
-    }
-    function blueDarken () {
-        var blue2Dark = $blue2.css("background-color", "#008");
-    }
-    function yellowDarken () {
-        var yellow3Dark = $yellow3.css("background-color", "#880");
-    }
-    function greenDarken () {
-        var green4Dark = $green4.css("background-color", "#080");
+    function greenLight (lightOn) {
+        if (lightOn) {
+            $green4.css("background-color", "#0e0");
+        } else {
+            $green4.css("background-color", "#080");
+        }
     }
 
     function redBlink () {
         playRed(1);
-        redLight();
-        setTimeout(redDarken, 100);
+        redLight(true);
+        setTimeout(redLight, 100);
     }
     function blueBlink () {
         playBlue(1);
-        blueLight();
-        setTimeout(blueDarken, 100);
+        blueLight(true);
+        setTimeout(blueLight, 100);
     }
     function yellowBlink () {
         playYellow(1);
-        yellowLight();
-        setTimeout(yellowDarken, 100);
+        yellowLight(true);
+        setTimeout(yellowLight, 100);
     }
     function greenBlink () {
         playGreen(1);
-        greenLight();
-        setTimeout(greenDarken, 100);
+        greenLight(true);
+        setTimeout(greenLight, 100);
     }
-
     function turnOffAll () {
-        redDarken();
-        blueDarken();
-        yellowDarken();
-        greenDarken();
+        redLight(false);
+        blueLight(false);
+        yellowLight(false);
+        greenLight(false);
     }
     function turnOnAll () {
-        redLight();
-        blueLight();
-        yellowLight();
-        greenLight();
+        redLight(true);
+        blueLight(true);
+        yellowLight(true);
+        greenLight(true);
     }
 
 
     // ===== Click Functions ===== \\
 
     function redClick () {
-        redLight();
+        redLight(true);
         playRed(1);
         hitValue = board.red;
         if (board.red == blinkCounter[0]) {
@@ -168,7 +163,7 @@ $('document').ready(function() {
         }
     }
     function blueClick () {
-        blueLight();
+        blueLight(true);
         playBlue(1);
         hitValue = board.blue;
         if (board.blue == blinkCounter[0]) {
@@ -181,7 +176,7 @@ $('document').ready(function() {
         }
     }
     function yellowClick () {
-        yellowLight();
+        yellowLight(true);
         playYellow(1);
         hitValue = board.yellow;
         if (board.yellow == blinkCounter[0]) {
@@ -194,7 +189,7 @@ $('document').ready(function() {
         }
     }
     function greenClick () {
-        greenLight();
+        greenLight(true);
         playGreen(1);
         hitValue = board.green;
         if (board.green == blinkCounter[0]) {
@@ -213,16 +208,16 @@ $('document').ready(function() {
     // Arm mouse clicks
     function armPanels () {
         $red1.mousedown(redClick);
-        $red1.mouseup(redDarken);
+        $red1.mouseup(redLight());
 
         $blue2.mousedown(blueClick);
-        $blue2.mouseup(blueDarken); 
+        $blue2.mouseup(blueLight()); 
 
         $yellow3.mousedown(yellowClick);
-        $yellow3.mouseup(yellowDarken);
+        $yellow3.mouseup(yellowLight());
 
         $green4.mousedown(greenClick);
-        $green4.mouseup(greenDarken);
+        $green4.mouseup(greenLight());
     }
     // Remove event listeners
     function disarmPanels () {
@@ -232,7 +227,7 @@ $('document').ready(function() {
         $green4.off();
     }
 
-    // Key down events
+    // Key down events ** pull function out and give a name
     function activateKeys () { 
         $(document).keydown(function(e) {
             switch(e.which) {
@@ -272,19 +267,23 @@ $('document').ready(function() {
         $(document).keydown(function(e) {
             switch(e.which) {
                 case 37: // left
-                greenLight();
+                playGreen(1);
+                greenLight(true);
                 break;
 
                 case 38: // up
-                redLight();
+                playRed(1);
+                redLight(true);
                 break;
 
                 case 39: // right
-                blueLight();
+                playBlue(1);
+                blueLight(true);
                 break;
 
                 case 40: // down
-                yellowLight();
+                playYellow(1);
+                yellowLight(true);
                 break;
 
                 default: return; // exit this handler for other keys
@@ -296,19 +295,19 @@ $('document').ready(function() {
         $(document).keyup(function(e) {
             switch(e.which) {
                 case 37: // left
-                greenDarken();
+                greenLight(false);
                 break;
 
                 case 38: // up
-                redDarken();
+                redLight(false);
                 break;
 
                 case 39: // right
-                blueDarken();
+                blueLight(false);
                 break;
 
                 case 40: // down
-                yellowDarken();
+                yellowLight(false);
                 break;
 
                 default: return; // exit this handler for other keys
@@ -389,49 +388,42 @@ $('document').ready(function() {
     }
 
     function playRed(volume) {
-        console.log("Playing");
       var click = soundRed.cloneNode();
       click.volume = volume;
       click.play();
     }
 
     function playBlue(volume) {
-        console.log("Playing");
       var click = soundBlue.cloneNode();
       click.volume = volume;
       click.play();
     }
 
     function playYellow(volume) {
-        console.log("Playing");
       var click = soundYellow.cloneNode();
       click.volume = volume;
       click.play();
     }
 
     function playGreen(volume) {
-        console.log("Playing");
       var click = soundGreen.cloneNode();
       click.volume = volume;
       click.play();
     }
 
     function playStart(volume) {
-        console.log("Playing");
       var click = soundStart.cloneNode();
       click.volume = volume;
       click.play();
     }
 
     function playPassRound(volume) {
-        console.log("Playing");
       var click = soundPassRound.cloneNode();
       click.volume = volume;
       click.play();
     }
 
     function playGameOver(volume) {
-        console.log("Playing");
       var click = soundGameOver.cloneNode();
       click.volume = volume;
       click.play();
@@ -445,12 +437,10 @@ $('document').ready(function() {
         playStart(1);
         roundMusic();
         turnOffAll();
-        blinkCounter = [];
-        totalArray = [];
+        variableReset();
         deactivateKeys();
         startAnimation();
         disarmPanels();
-        $roundNumber = 0;
         roundDisplayer($roundNumber);
         $('#roundDisplay').show();
         setTimeout(function() {
@@ -514,11 +504,8 @@ $('document').ready(function() {
         menuMusic();
         failAnimation();
         deactivateKeys();
-        $roundNumber = 0;
         $('#roundDisplay').hide();
-        hitValue = null;
-        blinkCounter = [];
-        totalArray = [];
+        variableReset();
         turnOffAll();
         disarmPanels();
         controlLights();
@@ -535,10 +522,10 @@ $('document').ready(function() {
             // alert("Round 1");
             startUp();
         });
-        $('#corePanelOuterBlack').click(function(){
+        $('.corePanel').mousedown(function(){
             $(this).css("border-style", "groove");
         });
-        $('#corePanelOuterBlack').mouseup(function(){
+        $('.corePanel').mouseup(function(){
             $(this).css("border-style", "solid");
         });
 
@@ -550,10 +537,6 @@ $('document').ready(function() {
         // Enables the user to play with lights between rounds
         controlLights();
 
-        $('#round').click(function(){
-            console.log('Clicked');
-        });
-
         menuMusic();
     }
 
@@ -564,4 +547,4 @@ $('document').ready(function() {
     onLoad();
     
     
-});
+// });
